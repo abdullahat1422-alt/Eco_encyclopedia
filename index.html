@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>الموسوعة البيئية | EcoEncyclopedia</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#f5faf5;--bg2:#eaf3ea;--surf:#fff;
+  --acc:#2d6a4f;--acct:#d8f3dc;--accd:#1b4332;--acc2:#52b788;
+  --tx:#1a2e1a;--tx2:#3d5c3d;--tx3:#7a9c7a;
+  --br:#cce5cc;--br2:#a8cfa8;
+  --fAr:'Cairo',sans-serif;--fEn:'DM Sans',sans-serif;--fDis:'Playfair Display',serif;
+  --ease:cubic-bezier(.25,.46,.45,.94);--spring:cubic-bezier(.34,1.56,.64,1);
+  --r:12px;--rl:20px;--rf:9999px;
+  --sh:0 2px 12px rgba(26,46,26,.08),0 1px 3px rgba(26,46,26,.05);
+  --sha:0 8px 28px rgba(45,106,79,.3);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--fAr);background:var(--bg);color:var(--tx);line-height:1.65;font-size:16px}
+body.en{font-family:var(--fEn);direction:ltr}
+
+/* PROGRESS BAR */
+#prog{position:fixed;top:0;left:0;width:0;height:3px;background:linear-gradient(90deg,var(--acc2),var(--acc));z-index:9999;transition:width .1s linear;border-radius:0 2px 2px 0}
+
+/* NAVBAR */
+nav{position:fixed;top:3px;left:0;right:0;height:62px;background:rgba(245,250,245,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--br);display:flex;align-items:center;justify-content:space-between;padding:0 32px;z-index:1000}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--accd);font-size:1.15rem;font-weight:700}
+.brand-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--acc),var(--acc2));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.nav-r{display:flex;align-items:center;gap:12px}
+.lang-sw{display:flex;background:var(--bg2);border:1.5px solid var(--br);border-radius:var(--rf);padding:3px;gap:2px}
+.lang-sw button{border:none;background:transparent;padding:4px 12px;border-radius:var(--rf);font-size:.78rem;font-weight:700;cursor:pointer;color:var(--tx3);transition:all .2s}
+.lang-sw button.on{background:var(--acc);color:#fff}
+.focus-btn{border:none;background:var(--bg2);border:1.5px solid var(--br);border-radius:var(--rf);padding:6px 14px;font-size:.78rem;font-weight:600;cursor:pointer;color:var(--tx2);transition:all .2s;font-family:inherit}
+.focus-btn:hover{background:var(--acct);color:var(--accd)}
+.focus-btn.on{background:var(--accd);color:#fff;border-color:var(--accd)}
+
+/* SIDEBAR NAV */
+#sidenav{position:fixed;right:16px;top:50%;transform:translateY(-50%);z-index:500;display:flex;flex-direction:column;gap:6px;background:rgba(255,255,255,.9);backdrop-filter:blur(12px);border:1px solid var(--br);border-radius:var(--rl);padding:8px 6px;box-shadow:var(--sh)}
+body.en #sidenav{right:auto;left:16px}
+.sn-btn{width:36px;height:36px;border:none;background:transparent;border-radius:10px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:all .2s;position:relative}
+.sn-btn:hover,.sn-btn.on{background:var(--acct)}
+.sn-btn.on{box-shadow:inset 0 0 0 2px var(--acc)}
+.sn-btn .tip{position:absolute;right:44px;background:var(--accd);color:#fff;padding:4px 10px;border-radius:6px;font-size:.72rem;font-weight:600;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;font-family:var(--fAr)}
+body.en .sn-btn .tip{right:auto;left:44px}
+.sn-btn:hover .tip{opacity:1}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:100px 32px 64px;position:relative;overflow:hidden;text-align:center}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(45,106,79,.13) 0%,transparent 70%),radial-gradient(ellipse 50% 40% at 10% 80%,rgba(82,183,136,.08) 0%,transparent 60%);pointer-events:none}
+.hero h1{font-size:clamp(2rem,5vw,3.6rem);font-weight:700;color:var(--accd);line-height:1.15;margin-bottom:16px}
+body.en .hero h1{font-family:var(--fDis)}
+.hero p{font-size:1.1rem;color:var(--tx2);max-width:520px;margin:0 auto 32px;line-height:1.75}
+.hero-stats{display:flex;justify-content:center;gap:48px;flex-wrap:wrap;margin-bottom:36px}
+.stat{text-align:center}
+.stat b{display:block;font-size:1.8rem;font-weight:700;color:var(--acc)}
+.stat span{font-size:.75rem;color:var(--tx3);letter-spacing:.05em;text-transform:uppercase}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:var(--rf);border:none;font-weight:600;font-size:.88rem;cursor:pointer;text-decoration:none;transition:all .18s var(--ease);font-family:inherit}
+.btn-p{background:var(--acc);color:#fff;box-shadow:var(--sha)}
+.btn-p:hover{opacity:.88;transform:translateY(-2px)}
+.btn-s{background:var(--surf);color:var(--accd);border:1.5px solid var(--br2)}
+.btn-s:hover{background:var(--acct);transform:translateY(-1px)}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+/* TOPIC TABS */
+#tabs{position:sticky;top:65px;z-index:900;background:var(--surf);border-bottom:1px solid var(--br);overflow-x:auto;scrollbar-width:none}
+#tabs::-webkit-scrollbar{display:none}
+.tabs-inner{display:flex;max-width:1200px;margin:0 auto;padding:0 32px}
+.tab{display:flex;align-items:center;gap:6px;padding:14px 18px;border:none;border-bottom:2.5px solid transparent;background:transparent;cursor:pointer;font-family:inherit;font-size:.85rem;font-weight:600;color:var(--tx3);white-space:nowrap;transition:all .18s}
+.tab:hover{color:var(--acc)}
+.tab.on{color:var(--acc);border-color:var(--acc)}
+
+/* SECTION */
+.sec{max-width:1100px;margin:0 auto;padding:72px 32px;scroll-margin-top:130px}
+.sec-head{display:flex;align-items:flex-start;gap:20px;margin-bottom:40px}
+.sec-ico{width:64px;height:64px;flex-shrink:0;border-radius:var(--rl);display:flex;align-items:center;justify-content:center;font-size:1.8rem;box-shadow:var(--sh)}
+.sec-meta .tag{display:inline-block;background:var(--acct);color:var(--accd);border-radius:var(--rf);padding:2px 12px;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+.sec-meta h2{font-size:clamp(1.5rem,3vw,2.1rem);font-weight:700;color:var(--accd);line-height:1.2;margin-bottom:8px}
+body.en .sec-meta h2{font-family:var(--fDis)}
+.sec-meta p{color:var(--tx2);font-size:1rem;line-height:1.7}
+
+/* CARDS GRID */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-bottom:32px}
+.card{background:var(--surf);border:1px solid var(--br);border-radius:var(--rl);padding:24px;box-shadow:var(--sh);cursor:pointer;transition:transform .22s var(--ease),box-shadow .22s var(--ease)}
+.card:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(26,46,26,.12)}
+.card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.card-ico{font-size:1.5rem}
+.card-arrow{font-size:.85rem;color:var(--tx3);transition:transform .2s}
+.card.open .card-arrow{transform:rotate(180deg)}
+.card h3{font-size:1.05rem;font-weight:700;color:var(--tx);margin-bottom:8px}
+.card-body{font-size:.87rem;color:var(--tx2);line-height:1.7}
+.card-more{max-height:0;overflow:hidden;transition:max-height .4s var(--ease);font-size:.85rem;color:var(--tx2);line-height:1.7;border-top:0 solid var(--br);margin-top:0}
+.card.open .card-more{max-height:300px;border-top:1px solid var(--br);margin-top:12px;padding-top:12px}
+
+/* FACT BANNER */
+.fact{display:flex;align-items:center;gap:20px;background:var(--surf);border:1px solid var(--br);border-radius:var(--rl);padding:24px 28px;margin:28px 0;border-right:4px solid var(--acc)}
+body.en .fact{border-right:none;border-left:4px solid var(--acc)}
+.fact-em{font-size:2.2rem;flex-shrink:0}
+.fact-label{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--acc);margin-bottom:6px}
+.fact-tx{font-size:.92rem;color:var(--tx2);line-height:1.7}
+
+/* TIPS */
+.tips{list-style:none;display:flex;flex-direction:column;gap:12px}
+.tip{display:flex;align-items:flex-start;gap:14px;background:var(--surf);border:1px solid var(--br);border-radius:var(--r);padding:16px 20px;transition:transform .18s}
+.tip:hover{transform:translateX(4px)}
+body.en .tip:hover{transform:translateX(-4px)}
+.tip-n{width:30px;height:30px;flex-shrink:0;background:var(--acct);color:var(--accd);border-radius:50%;font-weight:700;font-size:.82rem;display:flex;align-items:center;justify-content:center}
+.tip b{display:block;font-weight:700;margin-bottom:3px}
+.tip p{font-size:.85rem;color:var(--tx2);line-height:1.6}
+
+/* REFS */
+.refs{background:var(--surf);border:1px solid var(--br);border-radius:var(--rl);padding:28px;margin-top:28px}
+.refs h4{font-size:1rem;font-weight:700;color:var(--accd);margin-bottom:16px}
+.refs ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.refs li{font-size:.82rem;color:var(--tx2);line-height:1.65;padding-right:14px;border-right:2px solid var(--acct)}
+body.en .refs li{padding-right:0;padding-left:14px;border-right:none;border-left:2px solid var(--acct)}
+.refs strong{color:var(--accd)}
+.refs a{color:inherit;text-decoration:none;display:block;border-radius:6px;padding:2px 4px;margin:-2px -4px;transition:background .15s,color .15s}
+.refs a:hover{background:var(--acct);color:var(--accd)}
+.refs a::after{content:' ↗';font-size:.7rem;color:var(--acc);opacity:.7}
+.refs .no-link{color:var(--tx2)}
+
+/* DIVIDER */
+.div{height:1px;background:linear-gradient(90deg,transparent,var(--br2),transparent);margin:0 32px}
+
+/* FOCUS MODE */
+body.focus .sec{opacity:.15;filter:blur(1px);transition:opacity .3s,filter .3s}
+body.focus .sec.in-view{opacity:1;filter:none}
+
+/* TRANSITION OVERLAY */
+#overlay{display:none}
+
+/* ADMIN PANEL */
+#admin-modal{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:10000;display:none;align-items:center;justify-content:center}
+#admin-modal.show{display:flex}
+.modal-box{background:var(--surf);border-radius:var(--rl);padding:36px;max-width:380px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.2);text-align:center}
+.modal-box h3{font-size:1.2rem;font-weight:700;color:var(--accd);margin-bottom:8px}
+.modal-box p{font-size:.88rem;color:var(--tx2);margin-bottom:20px}
+.pin-input{width:100%;padding:12px;border:1.5px solid var(--br);border-radius:var(--r);font-size:1.2rem;text-align:center;letter-spacing:.3em;outline:none;font-family:monospace;transition:border-color .2s}
+.pin-input:focus{border-color:var(--acc)}
+.modal-btns{display:flex;gap:10px;margin-top:16px;justify-content:center}
+.pin-err{color:#c04848;font-size:.82rem;margin-top:8px;min-height:20px}
+.admin-bar{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--accd);color:#fff;padding:10px 24px;border-radius:var(--rf);display:none;align-items:center;gap:16px;z-index:2000;box-shadow:0 8px 24px rgba(0,0,0,.3);font-size:.85rem}
+.admin-bar.show{display:flex}
+.admin-bar button{border:none;background:rgba(255,255,255,.15);color:#fff;padding:6px 14px;border-radius:var(--rf);cursor:pointer;font-size:.8rem;font-weight:600;transition:background .15s;font-family:inherit}
+.admin-bar button:hover{background:rgba(255,255,255,.25)}
+body.admin-on [data-edit]{outline:1px dashed rgba(45,106,79,.4);border-radius:4px;cursor:text}
+body.admin-on [data-edit]:hover{outline:2px solid var(--acc);background:rgba(216,243,220,.3)}
+body.admin-on [data-edit]:focus{outline:2px solid var(--acc);background:var(--acct)}
+
+/* FOOTER */
+footer{background:var(--accd);color:rgba(255,255,255,.8);padding:48px 32px 24px;margin-top:48px}
+.foot-inner{max-width:1100px;margin:0 auto}
+.foot-brand{font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:8px}
+.foot-sub{font-size:.85rem;line-height:1.7;margin-bottom:28px}
+.foot-makers{display:flex;align-items:center;gap:20px;margin-bottom:28px;flex-wrap:wrap}
+.foot-makers-label{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px}
+.foot-names{font-size:1rem;font-weight:700;color:#fff;letter-spacing:.02em}
+.foot-email{font-size:.8rem;color:var(--acc2);text-decoration:none;transition:color .2s;display:inline-flex;align-items:center;gap:5px}
+.foot-email:hover{color:#fff}
+.foot-divider{width:1px;height:40px;background:rgba(255,255,255,.15);flex-shrink:0}
+.foot-disclaimer{font-size:.78rem;color:rgba(255,255,255,.5);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:10px 16px;margin-bottom:20px;line-height:1.6}
+.foot-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:16px;font-size:.75rem;color:rgba(255,255,255,.45);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+/* PARTICLES */
+.pt{position:absolute;border-radius:50%;animation:float linear infinite;pointer-events:none}
+@keyframes float{0%{transform:translateY(100vh) rotate(0deg);opacity:0}10%{opacity:.5}90%{opacity:.2}100%{transform:translateY(-10vh) rotate(360deg);opacity:0}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+.anim{animation:fadeUp .45s var(--ease) both}
+
+/* RESPONSIVE */
+@media(max-width:700px){
+  nav{padding:0 16px}
+  #sidenav{display:none}
+  .sec{padding:48px 16px}
+  .hero{padding:90px 16px 48px}
+  .hero-stats{gap:28px}
+  .tabs-inner{padding:0 12px}
+  .div{margin:0 16px}
+}
+
+/* LANG VISIBILITY */
+.ar{display:block}.en-t{display:none}
+body.en .ar{display:none}body.en .en-t{display:block}
+span.ar{display:inline}span.en-t{display:none}
+body.en span.ar{display:none}body.en span.en-t{display:inline}
+/* DIG DEEPER */
+.dig-deeper{background:var(--bg2);border:1.5px dashed var(--br2);border-radius:var(--r);padding:16px 20px;margin-bottom:22px}
+.dd-label{font-size:.73rem;font-weight:700;color:var(--acc2);display:block;margin-bottom:10px;letter-spacing:.05em;text-transform:uppercase}
+.dig-deeper ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+.dig-deeper li{font-size:.85rem;color:var(--tx2);display:flex;align-items:baseline;gap:8px;line-height:1.5}
+.dig-deeper li::before{content:'↗';color:var(--acc);font-size:.72rem;flex-shrink:0;margin-top:2px}
+
+/* EXPLORE SECTION */
+.explore-wrap{max-width:1000px;margin:56px auto 0;padding:0 24px 56px}
+.explore-title{text-align:center;font-size:1.5rem;font-weight:700;color:var(--accd);margin-bottom:8px}
+body.en .explore-title{font-family:var(--fDis)}
+.explore-sub{text-align:center;color:var(--tx3);font-size:.9rem;margin-bottom:36px}
+.explore-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.ex-card{background:var(--surf);border:1.5px solid var(--br);border-radius:var(--rl);padding:28px 24px;display:flex;flex-direction:column;gap:12px;transition:transform .2s var(--ease),box-shadow .2s;cursor:default}
+.ex-card:hover{transform:translateY(-4px);box-shadow:var(--sha)}
+.ex-icon{font-size:2rem;line-height:1}
+.ex-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--acc2);background:var(--acct);padding:2px 10px;border-radius:var(--rf);width:fit-content}
+.ex-card h3{font-size:1.05rem;font-weight:700;color:var(--accd);line-height:1.3}
+.ex-card p{font-size:.85rem;color:var(--tx2);line-height:1.6;flex:1}
+.ex-hint{font-size:.75rem;color:var(--acc);border-top:1px solid var(--br);padding-top:10px;margin-top:4px;display:flex;align-items:center;gap:6px}
+</style>
+</head>
+<body>
+
+<!-- Progress Bar -->
+<div id="prog"></div>
+
+<!-- Transition Overlay -->
+<div id="overlay"></div>
+
+<!-- Admin Modal -->
+<div id="admin-modal">
+  <div class="modal-box">
+    <div style="font-size:2rem;margin-bottom:12px">🔐</div>
+    <h3><span class="ar">دخول المشرف</span><span class="en-t">Admin Access</span></h3>
+    <p><span class="ar">أدخل رمز المشرف لتفعيل وضع التعديل</span><span class="en-t">Enter the admin PIN to enable editing</span></p>
+    <input class="pin-input" id="pin" type="password" maxlength="6" placeholder="••••" onkeydown="if(event.key==='Enter')checkPin()"/>
+    <div class="pin-err" id="pin-err"></div>
+    <div class="modal-btns">
+      <button class="btn btn-s" onclick="closeAdmin()"><span class="ar">إلغاء</span><span class="en-t">Cancel</span></button>
+      <button class="btn btn-p" onclick="checkPin()"><span class="ar">دخول</span><span class="en-t">Enter</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- Admin Bar -->
+<div class="admin-bar" id="admin-bar">
+  <span>🛡️ <span class="ar">وضع المشرف</span><span class="en-t">Admin Mode</span></span>
+  <button onclick="saveHTML()"><span class="ar">💾 حفظ</span><span class="en-t">💾 Save</span></button>
+  <button onclick="exitAdmin()"><span class="ar">خروج</span><span class="en-t">Exit</span></button>
+</div>
+
+<!-- NAVBAR -->
+<nav>
+  <a class="brand" href="#hero">
+    <div class="brand-icon">🌿</div>
+    <span class="ar">الموسوعة البيئية</span>
+    <span class="en-t">EcoEncyclopedia</span>
+  </a>
+  <div class="nav-r">
+    <button class="focus-btn" id="focus-btn" onclick="toggleFocus()">
+      <span class="ar">🎯 تركيز القراءة</span><span class="en-t">🎯 Focus Mode</span>
+    </button>
+    <div class="lang-sw">
+      <button id="btn-ar" class="on" onclick="setLang('ar')">عربي</button>
+      <button id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</nav>
+
+<!-- SIDEBAR NAV -->
+<div id="sidenav"></div>
+
+<!-- TABS -->
+<div id="tabs"><div class="tabs-inner" id="tabs-inner"></div></div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div id="hero-particles"></div>
+  <div style="position:relative;max-width:740px">
+    <div style="display:inline-flex;align-items:center;gap:8px;background:var(--acct);color:var(--accd);border:1px solid var(--br2);border-radius:var(--rf);padding:6px 16px;font-size:.75rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:24px">
+      🌍 <span class="ar">موسوعة بيئية علمية موثوقة</span><span class="en-t">Trusted Scientific Encyclopedia</span>
+    </div>
+    <h1 class="anim">
+      <span class="ar">اكتشف عالم البيئة<br/>بعيون العلم</span>
+      <span class="en-t">Explore the Environment<br/>Through Science</span>
+    </h1>
+    <p class="anim" style="animation-delay:.1s">
+      <span class="ar">مرجع شامل يغطي 13 محوراً بيئياً بمعلومات مستندة لأبحاث علمية معتمدة من WHO وIPCC وFAO وغيرها.</span>
+      <span class="en-t">A comprehensive reference covering 13 environmental topics backed by WHO, IPCC, FAO and other leading scientific bodies.</span>
+    </p>
+    <div class="hero-stats anim" style="animation-delay:.15s">
+      <div class="stat"><b>13</b><span><span class="ar">محوراً بيئياً</span><span class="en-t">Topics</span></span></div>
+      <div class="stat"><b>50+</b><span><span class="ar">مرجع علمي</span><span class="en-t">References</span></span></div>
+      <div class="stat"><b>2</b><span><span class="ar">لغة</span><span class="en-t">Languages</span></span></div>
+    </div>
+    <div class="hero-btns anim" style="animation-delay:.2s">
+      <a class="btn btn-p" href="#water" onclick="cinematic(event,'water')">🌊 <span class="ar">ابدأ الاستكشاف</span><span class="en-t">Start Exploring</span></a>
+      <a class="btn btn-s" href="#climate" onclick="cinematic(event,'climate')">🌡️ <span class="ar">تغير المناخ</span><span class="en-t">Climate Change</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- SECTIONS RENDERED BY JS -->
+<div id="content"></div>
+
+<!-- EXPLORE SECTION -->
+<div class="explore-wrap">
+  <div class="explore-title">
+    <span class="ar">🔍 اقتراحات للبحث الذاتي</span>
+    <span class="en-t">🔍 Topics to Explore</span>
+  </div>
+  <div class="explore-sub">
+    <span class="ar">مواضيع يُنصح كل قارئ بالتعمق فيها بنفسه للتوسع في الفهم البيئي</span>
+    <span class="en-t">Recommended topics for independent exploration and deeper environmental understanding</span>
+  </div>
+  <div class="explore-cards">
+
+    <div class="ex-card">
+      <div class="ex-icon">🌡️</div>
+      <div class="ex-label"><span class="ar">مناخ</span><span class="en-t">Climate</span></div>
+      <h3><span class="ar">نقاط التحول المناخية (Tipping Points)</span><span class="en-t">Climate Tipping Points</span></h3>
+      <p>
+        <span class="ar">ما الحدود التي إذا تجاوزها النظام المناخي لا يمكن الرجوع عنها؟ ابحث عن ذوبان الغطاء الجليدي في غرينلاند، وتراجع غابات الأمازون، وذوبان التربة الصقيعية (Permafrost) وأثرها على انبعاثات الميثان.</span>
+        <span class="en-t">What thresholds, once crossed, make climate change irreversible? Explore Greenland ice sheet collapse, Amazon dieback, and permafrost thaw releasing methane.</span>
+      </p>
+      <div class="ex-hint">💡 <span class="ar">ابدأ بـ: IPCC AR6 — Chapter on Tipping Elements</span><span class="en-t">Start with: IPCC AR6 — Tipping Elements chapter</span></div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-icon">🌊</div>
+      <div class="ex-label"><span class="ar">محيطات</span><span class="en-t">Oceans</span></div>
+      <h3><span class="ar">الاقتصاد الأزرق وحماية أعماق البحار</span><span class="en-t">Blue Economy & Deep-Sea Protection</span></h3>
+      <p>
+        <span class="ar">المحيطات تغطي 71% من الكرة الأرضية لكن 80% من أعماقها لم تُستكشف بعد. ابحث عن معاهدة أعالي البحار (BBNJ 2023) وكيف يوازن الاقتصاد الأزرق بين استغلال الموارد وحماية النظم البحرية.</span>
+        <span class="en-t">Oceans cover 71% of Earth yet 80% of their depths remain unexplored. Research the High Seas Treaty (BBNJ 2023) and how the blue economy balances resource use with marine protection.</span>
+      </p>
+      <div class="ex-hint">💡 <span class="ar">ابدأ بـ: IUCN Ocean Programme — High Seas Treaty</span><span class="en-t">Start with: IUCN Ocean Programme — High Seas Treaty</span></div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-icon">👣</div>
+      <div class="ex-label"><span class="ar">فرد ومجتمع</span><span class="en-t">Individual Impact</span></div>
+      <h3><span class="ar">البصمة الكربونية الشخصية وكيفية قياسها</span><span class="en-t">Personal Carbon Footprint & How to Measure It</span></h3>
+      <p>
+        <span class="ar">كيف تحسب أثرك الكربوني الفعلي؟ ابحث عن الفارق بين الانبعاثات المباشرة وغير المباشرة، وأثر النظام الغذائي مقارنةً بالتنقل، وجدل مصطلح "البصمة الكربونية" الذي ابتكرته شركة BP.</span>
+        <span class="en-t">How do you calculate your real carbon impact? Explore direct vs. indirect emissions, diet vs. transport impact, and the history of the "carbon footprint" term coined by BP.</span>
+      </p>
+      <div class="ex-hint">💡 <span class="ar">ابدأ بـ: Our World in Data — CO₂ & Greenhouse Gas Emissions</span><span class="en-t">Start with: Our World in Data — CO₂ & Greenhouse Gas Emissions</span></div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-brand">🌿 <span class="ar">الموسوعة البيئية</span><span class="en-t">EcoEncyclopedia</span></div>
+    <div class="foot-sub"><span class="ar">مرجع بيئي شامل يجمع المعرفة العلمية الموثوقة لصون كوكبنا.</span><span class="en-t">A comprehensive environmental reference for a sustainable planet.</span></div>
+    <div class="foot-makers">
+      <div>
+        <div class="foot-makers-label"><span class="ar">عمل بواسطة</span><span class="en-t">Made by</span></div>
+        <div class="foot-names">Abdullah &amp; Faris</div>
+      </div>
+      <div class="foot-divider"></div>
+      <div>
+        <div class="foot-makers-label"><span class="ar">للتواصل</span><span class="en-t">Contact</span></div>
+        <a class="foot-email" href="mailto:abdullahat1422@gmail.com">✉️ abdullahat1422@gmail.com</a>
+      </div>
+    </div>
+    <div class="foot-disclaimer">
+      <span class="ar">⚠️ المعلومات لأغراض تعليمية وتوعوية فقط. يُرجى الرجوع للمصادر الأصلية للاستشهاد الرسمي.</span>
+      <span class="en-t">⚠️ Information is for educational and awareness purposes only. Please refer to original sources for formal citation.</span>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2025 EcoEncyclopedia</span>
+      <span><span class="ar">المعلومات مستندة لمصادر علمية موثوقة</span><span class="en-t">Based on verified scientific sources</span></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ═══ DATA ═══════════════════════════════════════════════════════════
+const SECTIONS = [
+ {
+  id:'water', icon:'💧', color:'#2b7a9e', tag:'1',
+  ar:{title:'الماء — شريان الحياة',intro:'يغطي الماء 71% من سطح الأرض، لكن المياه العذبة الصالحة للشرب لا تمثل سوى 2.5% من الإجمالي. إدارته تحدٍّ حضاري وبيئي محوري.',
+    cards:[
+      {i:'🌊',t:'الدورة المائية',b:'تبخر وتكثف وتساقط وجريان سطحي — دورة مستمرة تُوزّع المياه وتُنظّم المناخ.',more:'تُسهم الغابات في تعزيز دورة المياه عبر التبخر النتحي؛ إزالتها تُقلص التساقط المطري وتزيد الجفاف.'},
+      {i:'🚰',t:'تلوث المياه',b:'مياه صناعية وصرف صحي وأسمدة زراعية تُدمّر النظم البيئية المائية وتُهدد الصحة العامة.',more:'اليوتروفيكيشن يُنتج مناطق ميتة في المحيطات — 245 منطقة موثقة عالمياً حتى 2023.'},
+      {i:'🏔️',t:'المياه الجوفية',b:'30% من المياه العذبة العالمية مخزونة في الطبقات الصخرية. الاستنزاف الجائر يُهدد هذا المورد الثمين.',more:'انخفض منسوب المياه الجوفية في شمال الهند وباكستان بمعدل 40 سم سنوياً خلال العقد الماضي.'},
+      {i:'🐠',t:'النظم البيئية المائية',b:'أنهار وبحيرات وأهوار ومحيطات تضم ملايين الأنواع وتُقدّم خدمات لا تُحصى.',more:'الأهوار تُنظّف المياه طبيعياً بكفاءة تعادل محطات معالجة متكاملة، وتُخزّن الكربون بكميات ضخمة.'}
+    ],
+    fact:{e:'📊',l:'إحصائية مهمة',t:'وفقاً لـ WHO 2023، يفتقر أكثر من 2 مليار شخص إلى مياه شرب آمنة، و3.6 مليار يعيشون في مناطق شح مائي لشهر أو أكثر سنوياً.'},
+    refs:[
+      {t:'WHO. Drinking-water Fact Sheet (updated 2024).',u:'https://www.who.int/news-room/fact-sheets/detail/drinking-water'},
+      {t:'IPCC (2022). AR6 Working Group II — Chapter 4: Water. Cambridge UP.',u:'https://www.ipcc.ch/report/ar6/wg2/chapter/chapter-4/'},
+      {t:'UNESCO (2023). UN World Water Development Report. Paris.',u:'https://www.unwater.org/publications/un-world-water-development-report-2023'},
+      {t:'Our World in Data. Water Access and Sanitation.',u:'https://ourworldindata.org/water-access'}
+    ]
+  },
+  en:{title:'Water — The Artery of Life',intro:'Water covers 71% of Earth\'s surface, yet only 2.5% is fresh and drinkable. Managing it is one of humanity\'s greatest challenges.',
+    cards:[
+      {i:'🌊',t:'The Water Cycle',b:'Evaporation, condensation, precipitation, runoff — a continuous cycle distributing water and regulating climate.',more:'Forests enhance the water cycle through evapotranspiration; deforestation reduces rainfall and intensifies drought.'},
+      {i:'🚰',t:'Water Pollution',b:'Industrial waste, sewage, and agricultural fertilizers destroy aquatic ecosystems and endanger public health.',more:'Eutrophication creates dead zones in oceans — 245 documented zones globally as of 2023.'},
+      {i:'🏔️',t:'Groundwater',b:'30% of the world\'s freshwater is stored in aquifers. Over-extraction threatens this precious resource.',more:'Groundwater levels in northern India and Pakistan have dropped by 40 cm annually over the past decade.'},
+      {i:'🐠',t:'Aquatic Ecosystems',b:'Rivers, lakes, wetlands, and oceans host millions of species and provide countless services.',more:'Wetlands naturally purify water with efficiency matching full treatment plants, and store vast amounts of carbon.'}
+    ],
+    fact:{e:'📊',l:'Key Statistic',t:'According to WHO 2023, over 2 billion people lack safe drinking water, and 3.6 billion live in water-scarce areas for at least one month per year.'},
+    refs:['WHO (2023). World Water, Sanitation and Hygiene Report. Geneva.','IPCC (2022). Sixth Assessment Report — Water Chapter. Cambridge UP.','UNESCO (2021). UN World Water Development Report. Paris.']
+  }
+ },
+ {
+  id:'air', icon:'💨', color:'#52b788', tag:'2',
+  ar:{title:'الهواء — الغلاف الحيوي',intro:'الغلاف الجوي درع الأرض ومصدر الأكسجين — نيتروجين 78%، أكسجين 21%، وغازات أثرية تُنظّم المناخ. تلوثه يقتل 7 ملايين سنوياً.',
+    cards:[
+      {i:'🏭',t:'تلوث الهواء',b:'الجسيمات الدقيقة PM2.5 تخترق الرئتين وتصل الدم. المصانع والسيارات والزراعة مصادرها الرئيسية.',more:'تُسبب PM2.5 أمراض القلب والسكتة الدماغية وسرطان الرئة. 99% من سكان العالم يتنفسون هواءً يتجاوز حدود WHO.'},
+      {i:'🌡️',t:'غازات الاحتباس الحراري',b:'CO₂ والميثان وأكسيد النيتروز تحبس الحرارة. CO₂ ارتفع من 280 إلى 422.8 جزء/مليون (المعدل السنوي 2024) وفق NOAA.',more:'الميثان 80 ضعفاً أقوى من CO₂ في احتجاز الحرارة خلال 20 عاماً — ينبعث من مزارع الماشية ومكبات النفايات والآبار النفطية.'},
+      {i:'🔵',t:'طبقة الأوزون',b:'تحمي الحياة من الأشعة فوق البنفسجية. مركبات CFC أحدثت فجوة فوق القطب الجنوبي.',more:'بروتوكول مونتريال 1987 نجاح بيئي نادر — الفجوة تتقلص تدريجياً وتُتوقع استعادة كاملة بحلول 2066.'},
+      {i:'🌬️',t:'جودة الهواء الداخلي',b:'مواد البناء وأجهزة الطهي تُطلق ملوثات قد تفوق الهواء الخارجي، تُؤثر على الجهاز التنفسي.',more:'1.6 مليون حالة وفاة سنوياً بسبب التلوث الداخلي — يطال بشكل غير متناسب النساء والأطفال في الدول النامية.'}
+    ],
+    fact:{e:'⚠️',l:'حقيقة علمية',t:'State of Global Air 2024: تلوث الهواء تسبب في وفاة 7.9 مليون شخص عام 2023، وهو أكبر خطر بيئي صحي. وفق WHO: 99% من سكان العالم يتنفسون هواءً يتجاوز حدود السلامة.'},
+    refs:[
+      {t:'WHO. Ambient (Outdoor) Air Quality and Health Fact Sheet (2024).',u:'https://www.who.int/news-room/fact-sheets/detail/ambient-(outdoor)-air-quality-and-health'},
+      {t:'State of Global Air (2024). Annual Report. Health Effects Institute, Boston.',u:'https://www.stateofglobalair.org/resources/report/state-global-air-report-2024'},
+      {t:'NOAA (2024). Trends in Atmospheric CO₂ — Global Monitoring Laboratory.',u:'https://gml.noaa.gov/ccgg/trends/'},
+      {t:'WMO (2023). State of the Global Climate 2023.',u:'https://wmo.int/publication-series/state-of-global-climate-2023'}
+    ]
+  },
+  en:{title:'Air — The Vital Atmosphere',intro:'The atmosphere is Earth\'s shield and oxygen source — 78% nitrogen, 21% oxygen, trace gases regulate climate. Its pollution kills 7 million annually.',
+    cards:[
+      {i:'🏭',t:'Air Pollution',b:'PM2.5 fine particles penetrate lungs and enter the bloodstream. Factories, vehicles, and agriculture are primary sources.',more:'PM2.5 causes heart disease, stroke, and lung cancer. 99% of the world\'s population breathes air exceeding WHO limits.'},
+      {i:'🌡️',t:'Greenhouse Gases',b:'CO₂, methane, and nitrous oxide trap heat. CO₂ rose from 280 to 422.8 ppm (2024 annual average, NOAA) since the Industrial Revolution.',more:'Methane is 80x more potent than CO₂ at trapping heat over 20 years — emitted by livestock, landfills, and oil wells.'},
+      {i:'🔵',t:'The Ozone Layer',b:'Protects life from UV radiation. CFCs created a hole over Antarctica.',more:'The Montreal Protocol 1987 is a rare environmental success — the hole is gradually shrinking, with full recovery expected by 2066.'},
+      {i:'🌬️',t:'Indoor Air Quality',b:'Building materials and cooking appliances can release more pollutants than outdoor air, affecting respiratory health.',more:'1.6 million deaths annually from indoor pollution — disproportionately affecting women and children in developing countries.'}
+    ],
+    fact:{e:'⚠️',l:'Scientific Fact',t:'State of Global Air 2024: Air pollution caused 7.9 million deaths in 2023, making it the world\'s largest environmental health risk. WHO reports 99% of the world\'s population breathes air exceeding safety guidelines.'},
+    refs:['WHO. Ambient Air Quality and Health Fact Sheet (updated 2024).','State of Global Air (2024). Annual Report. Health Effects Institute, Boston.','NOAA (2024). Global Greenhouse Gas Reference Network.','WMO (2023). State of the Global Climate Report.']
+  }
+ },
+ {
+  id:'soil', icon:'🌱', color:'#8b5e3c', tag:'3',
+  ar:{title:'التربة — أساس الحضارات',intro:'ملعقة واحدة من التربة الصحية تحتوي مليار بكتيريا. يستغرق تكوّن 2.5 سم من التربة الخصبة 200-1000 سنة — هي أثمن من الذهب.',
+    cards:[
+      {i:'🧬',t:'تركيب التربة',b:'45% معادن، 25% ماء، 25% هواء، 5% مواد عضوية. الهيوموس هو محرك خصوبتها.',more:'الكائنات الدقيقة تُحلّل المواد العضوية المعقدة إلى مغذيات بسيطة تمتصها النباتات — بدونها تموت الزراعة.'},
+      {i:'🌾',t:'تآكل التربة',b:'الزراعة الجائرة وإزالة الغابات يُضيّعان مليارات الأطنان سنوياً بفعل الماء والرياح.',more:'FAO: نفقد مساحة ملعب كرة قدم كامل من التربة كل 5 ثوانٍ بسبب التآكل. 33% من أراضي الكوكب تعاني تدهوراً متوسطاً لحاداً.'},
+      {i:'☣️',t:'تلوث التربة',b:'المبيدات والمعادن الثقيلة والبلاستيك الدقيق تتراكم مدمِّرةً الكائنات المفيدة.',more:'اليورانيوم والرصاص والكادميوم تبقى في التربة عشرات السنين، تنتقل للإنسان عبر الغذاء والمياه الجوفية.'},
+      {i:'🪱',t:'الميكروبيوم',b:'ملعقة تربة صحية: مليار بكتيريا، مئات آلاف الفطريات، تُثبّت النيتروجين وتُلقّح النباتات.',more:'الديدان الأرضية تُقلّب التربة وتُهوّيها — تُنتج Darwin أكثر من 2 طن من الأرض المُعالَجة لكل فدان سنوياً.'}
+    ],
+    fact:{e:'🌍',l:'حقيقة مذهلة',t:'FAO (2015/2022): نفقد مساحة ملعب كرة قدم كامل من التربة كل 5 ثوانٍ بسبب التآكل. 33% من أراضي الكوكب تعاني من تدهور متوسط إلى حاد.'},
+    refs:[
+      {t:'FAO & ITPS (2015). Status of the World\'s Soil Resources. Rome. [PDF مجاني]',u:'https://openknowledge.fao.org/handle/20.500.14283/i5199e'},
+      {t:'UNCCD (2022). Global Land Outlook 2.',u:'https://www.unccd.int/resources/global-land-outlook/glo2'},
+      {t:'Our World in Data. Soil — Environmental Research.',u:'https://ourworldindata.org/environmental-impacts-of-food'},
+      {t:'FAO. Soil Erosion — Global Soil Partnership.',u:'https://www.fao.org/global-soil-partnership/areas-of-work/soil-erosion/en/'}
+    ]
+  },
+  en:{title:'Soil — Foundation of Civilizations',intro:'One teaspoon of healthy soil contains a billion bacteria. Forming 2.5 cm of fertile topsoil takes 200-1000 years — more precious than gold.',
+    cards:[
+      {i:'🧬',t:'Soil Composition',b:'45% minerals, 25% water, 25% air, 5% organic matter. Humus drives fertility.',more:'Microorganisms break down complex organic matter into simple nutrients absorbed by plants — without them, agriculture dies.'},
+      {i:'🌾',t:'Soil Erosion',b:'Intensive farming and deforestation lose billions of tons annually to water and wind.',more:'FAO: We lose the equivalent of one soccer pitch of soil every 5 seconds. 33% of the planet\'s land suffers moderate to severe degradation.'},
+      {i:'☣️',t:'Soil Contamination',b:'Pesticides, heavy metals, and microplastics accumulate, destroying beneficial organisms.',more:'Uranium, lead, and cadmium persist in soil for decades, reaching humans through food and groundwater.'},
+      {i:'🪱',t:'The Microbiome',b:'One teaspoon: a billion bacteria, hundreds of thousands of fungi, fixing nitrogen and supporting plants.',more:'Earthworms aerate and turn over soil — producing over 2 tons of processed earth per acre per year.'}
+    ],
+    fact:{e:'🌍',l:'Astonishing Fact',t:'FAO & ITPS (2015/2022): We lose the equivalent of one soccer pitch of soil every 5 seconds. 33% of the planet\'s land suffers moderate to severe degradation.'},
+    refs:['FAO (2022). State of the World\'s Soil Resources. Rome.','Lehmann & Kleber (2015). Nature, 528, 60–68.','UNCCD (2022). Global Land Outlook.']
+  }
+ },
+ {
+  id:'wildlife', icon:'🦁', color:'#6b5b2e', tag:'4',
+  ar:{title:'الحياة الفطرية — نسيج الحياة',intro:'8.7 مليون نوع حي على الأرض — كل نوع خيط في نسيج الحياة. قطع خيط واحد يُهدد التوازن كله.',
+    cards:[
+      {i:'🦋',t:'فقدان التنوع البيولوجي',b:'معدل الانقراض الحالي يفوق الطبيعي بـ 1000 مرة. مليون نوع مهدد وفق IPBES 2019.',more:'النحل وحده يُلقّح ثلث الغذاء البشري — تراجع أعداده 40% خلال العقد الأخير يُهدد الأمن الغذائي العالمي.'},
+      {i:'🌿',t:'تدمير الموائل',b:'الغابات الاستوائية 7% من الأرض لكنها تأوي 50% من الأنواع. إزالتها كارثة بيولوجية.',more:'تجزيء الموائل أخطر من إزالتها — الشرائح الصغيرة المعزولة تفقد تنوعها تدريجياً حتى دون قطع مباشر.'},
+      {i:'🐋',t:'الأنواع المهددة',b:'IUCN: 42,000+ نوع مهدد. النمر السوماطري، وحيد القرن الأبيض الشمالي (فردان فقط).',more:'الأسماك المفترسة كالقرش تُنظّم التوازن البحري. انخفضت أعدادها 70% خلال 50 عاماً بسبب الصيد الجائر.'},
+      {i:'🐝',t:'خدمات النظم البيئية',b:'الحياة الفطرية تُقدّم 125 تريليون دولار سنوياً من الخدمات البيئية (Costanza et al.).',more:'تلقيح المحاصيل، تحلل النفايات، تنقية الماء والهواء، تنظيم المناخ — خدمات لا يمكن استبدالها بأي تقنية.'}
+    ],
+    fact:{e:'🔴',l:'تحذير عاجل',t:'IPBES 2019: مليون نوع مهدد بالانقراض — أكبر خسارة للتنوع البيولوجي منذ اندثار الديناصورات قبل 66 مليون سنة.'},
+    refs:[
+      {t:'IPBES (2019). Global Assessment Report on Biodiversity and Ecosystem Services. Bonn.',u:'https://www.ipbes.net/global-assessment'},
+      {t:'IUCN (2024). The IUCN Red List of Threatened Species.',u:'https://www.iucnredlist.org/'},
+      {t:'WWF (2022). Living Planet Report. Gland, Switzerland.',u:'https://www.worldwildlife.org/pages/living-planet-report-2022'},
+      {t:'Our World in Data. Biodiversity and Wildlife.',u:'https://ourworldindata.org/biodiversity'}
+    ]
+  },
+  en:{title:'Wildlife — The Fabric of Life',intro:'8.7 million species on Earth — every species is a thread in life\'s fabric. Cut one thread and the whole balance is threatened.',
+    cards:[
+      {i:'🦋',t:'Biodiversity Loss',b:'Current extinction rate is 1,000x higher than natural. One million species threatened (IPBES 2019).',more:'Bees alone pollinate one-third of human food — a 40% decline in their populations over the last decade threatens global food security.'},
+      {i:'🌿',t:'Habitat Destruction',b:'Tropical forests cover 7% of land but harbor 50% of species. Their removal is a biological catastrophe.',more:'Habitat fragmentation is more dangerous than direct removal — isolated small strips gradually lose diversity without direct cutting.'},
+      {i:'🐋',t:'Endangered Species',b:'IUCN: 42,000+ species threatened. Sumatran tiger, Northern White Rhinoceros (only two individuals remain).',more:'Predatory fish like sharks regulate marine balance. Their numbers dropped 70% over 50 years due to overfishing.'},
+      {i:'🐝',t:'Ecosystem Services',b:'Wildlife provides $125 trillion annually in ecosystem services (Costanza et al.).',more:'Pollination, waste decomposition, water and air purification, climate regulation — services no technology can replace.'}
+    ],
+    fact:{e:'🔴',l:'Urgent Warning',t:'IPBES 2019: One million species face extinction — the largest biodiversity loss since the dinosaurs 66 million years ago.'},
+    refs:['IPBES (2019). Global Assessment on Biodiversity. Bonn.','IUCN (2023). Red List Version 2023-1.','WWF (2022). Living Planet Report. Gland.']
+  }
+ },
+ {
+  id:'protection', icon:'🛡️', color:'#2d6a4f', tag:'5', isTips:true,
+  ar:{title:'طرق الحماية البيئية',intro:'الحماية مسؤولية جماعية — من الفرد إلى السياسات الدولية. كل خطوة فرق.',
+    tips:[
+      {t:'المحميات الطبيعية (30x30)',d:'هدف كونمينج-مونتريال 2022: حماية 30% من الأرض والمحيطات بحلول 2030. حالياً 17% أرض و8% محيطات.'},
+      {t:'الطاقة المتجددة',d:'الطاقة الشمسية أصبحت الأرخص في التاريخ — نمو 45% سنوياً خلال العقد الأخير (IRENA 2023).'},
+      {t:'الزراعة المستدامة',d:'الزراعة التحفظية وتقليل الحراثة والتدوير المحصولي تُحافظ على التربة وتُقلص الكيماويات.'},
+      {t:'إعادة التشجير',d:'عقد الاستعادة البيئية 2021-2030: استعادة مليارات الهكتارات. الأشجار تمتص CO₂ وتعيد التنوع.'},
+      {t:'الاقتصاد الدائري',d:'تقليل، إعادة استخدام، إعادة تدوير — تحويل النفايات إلى موارد بدلاً من التخلص منها.'},
+      {t:'الاتفاقيات الدولية',d:'اتفاق باريس 2015، اتفاقية التنوع البيولوجي، بروتوكول مونتريال — أُطر دولية ناجحة.'},
+      {t:'التوعية والتعليم البيئي',d:'الأفراد المتعلمون بيئياً يُبنّون سلوكاً أكثر استدامة — التغيير يبدأ بمعرفة.'}
+    ],
+    refs:[
+      {t:'UNFCCC (2015). The Paris Agreement.',u:'https://unfccc.int/process-and-meetings/the-paris-agreement'},
+      {t:'IRENA (2024). Renewable Power Generation Costs in 2023.',u:'https://www.irena.org/Publications/2024/Sep/Renewable-Power-Generation-Costs-in-2023'},
+      {t:'CBD (2022). Kunming-Montreal Global Biodiversity Framework.',u:'https://www.cbd.int/gbf'},
+      {t:'UNEP. UN Decade on Ecosystem Restoration 2021-2030.',u:'https://www.decadeonrestoration.org/'}
+    ]
+  },
+  en:{title:'Environmental Protection Methods',intro:'Protection is a collective responsibility — from the individual to international policy. Every step makes a difference.',
+    tips:[
+      {t:'Protected Areas (30x30)',d:'Kunming-Montreal 2022 target: protect 30% of land and oceans by 2030. Currently 17% land, 8% oceans.'},
+      {t:'Renewable Energy',d:'Solar became the cheapest energy in history — 45% annual growth over the last decade (IRENA 2023).'},
+      {t:'Sustainable Agriculture',d:'Conservation tillage, crop rotation, and reduced plowing preserve soil and cut chemical use.'},
+      {t:'Reforestation',d:'UN Ecosystem Restoration Decade 2021-2030: restore billions of hectares. Trees absorb CO₂ and restore biodiversity.'},
+      {t:'Circular Economy',d:'Reduce, reuse, recycle — turning waste into resources instead of disposal.'},
+      {t:'International Agreements',d:'Paris Agreement 2015, Convention on Biological Diversity, Montreal Protocol — successful international frameworks.'},
+      {t:'Awareness & Education',d:'Environmentally educated individuals adopt more sustainable behaviors — change starts with knowledge.'}
+    ],
+    refs:['UNFCCC (2015). The Paris Agreement.','IRENA (2023). Renewable Power Generation Costs.','CBD (2022). Kunming-Montreal Global Biodiversity Framework.']
+  }
+ },
+ {
+  id:'climate', icon:'🌡️', color:'#e07b39', tag:'6',
+  ar:{title:'تغير المناخ — التحدي الأكبر',intro:'ارتفعت درجة حرارة الأرض 1.1 درجة مئوية منذ الثورة الصناعية. كل جزء من الدرجة يعني المزيد من الكوارث.',
+    cards:[
+      {i:'🔥',t:'الاحترار العالمي',b:'حرق الوقود الأحفوري يُطلق CO₂ يحبس الحرارة. 2023 كان الأسخن في تاريخ البشرية المسجَّل.',more:'2023 تجاوزت درجة الحرارة الحد المؤقت 1.5 درجة لأول مرة على مدى 12 شهراً متتالياً.'},
+      {i:'🌊',t:'ارتفاع مستوى البحار',b:'الجليد القطبي ذاب بشكل غير مسبوق — ارتفع البحر 20 سم منذ 1900 والمعدل يتسارع.',more:'ارتفاع بحري بمقدار 1-2 متر بحلول 2100 سيُغرق مدناً ساحلية تضم 1 مليار شخص.'},
+      {i:'⛈️',t:'الظواهر المناخية المتطرفة',b:'أعاصير أشد، فيضانات أوسع، حرائق أكبر، جفاف أطول — المناخ المتغير يُضاعف كثافتها.',more:'تغير المناخ ضاعف احتمالية الأمطار الغزيرة بنسبة تتراوح 40-60% في معظم مناطق العالم (IPCC AR6).'},
+      {i:'❄️',t:'نقاط التحول المناخية',b:'ذوبان الثلج الدائم وتحلل الميثان وموت الشعاب المرجانية — نقاط لا رجعة فيها.',more:'نقاط التحول الكبرى (tipping points) مترابطة — تجاوز إحداها قد يُفعّل الأخريات في تسلسل لا يمكن إيقافه.'}
+    ],
+    fact:{e:'🌡️',l:'إحصائية صادمة',t:'IPCC AR6 2021: نحتاج تخفيض انبعاثات الكربون 45% بحلول 2030 والوصول للحياد الكربوني بحلول 2050 للحد من الاحترار عند 1.5°C.'},
+    refs:[
+      {t:'IPCC (2021). AR6 WGI — Summary for Policymakers. Cambridge UP.',u:'https://www.ipcc.ch/report/ar6/wg1/chapter/summary-for-policymakers/'},
+      {t:'WMO (2023). State of the Global Climate 2023.',u:'https://wmo.int/publication-series/state-of-global-climate-2023'},
+      {t:'Copernicus Climate Change Service (2024). European State of the Climate 2023.',u:'https://climate.copernicus.eu/esotc/2023'},
+      {t:'Our World in Data. CO₂ and Greenhouse Gas Emissions.',u:'https://ourworldindata.org/co2-and-greenhouse-gas-emissions'}
+    ]
+  },
+  en:{title:'Climate Change — The Defining Challenge',intro:'Earth\'s temperature has risen 1.1°C since the Industrial Revolution. Every fraction of a degree means more catastrophes.',
+    cards:[
+      {i:'🔥',t:'Global Warming',b:'Burning fossil fuels releases CO₂ that traps heat. 2023 was the hottest year in recorded human history.',more:'2023 exceeded the 1.5°C threshold for the first time across 12 consecutive months.'},
+      {i:'🌊',t:'Sea Level Rise',b:'Polar ice melted at unprecedented rates — sea level rose 20 cm since 1900 and the rate is accelerating.',more:'A 1-2 meter sea rise by 2100 would flood coastal cities housing 1 billion people.'},
+      {i:'⛈️',t:'Extreme Weather',b:'Stronger hurricanes, wider floods, bigger wildfires, longer droughts — changing climate multiplies their intensity.',more:'Climate change increased the probability of heavy rainfall by 40-60% in most regions (IPCC AR6).'},
+      {i:'❄️',t:'Climate Tipping Points',b:'Permafrost melting, methane release, coral reef death — points of no return.',more:'Major tipping points are interconnected — crossing one may trigger others in an unstoppable cascade.'}
+    ],
+    fact:{e:'🌡️',l:'Alarming Statistic',t:'IPCC AR6 2021: We need to cut carbon emissions 45% by 2030 and reach net zero by 2050 to limit warming to 1.5°C.'},
+    refs:['IPCC (2021). Sixth Assessment Report AR6. Cambridge UP.','WMO (2023). State of Global Climate Report.','Copernicus Climate Change Service (2023). European Climate Bulletin.']
+  }
+ },
+ {
+  id:'energy', icon:'☀️', color:'#d4a017', tag:'7',
+  ar:{title:'الطاقة المتجددة — ثورة النظيف',intro:'في 2023، نصف الطاقة الجديدة المُضافة عالمياً من مصادر متجددة. أصبحت الطاقة الشمسية الأرخص في التاريخ.',
+    cards:[
+      {i:'☀️',t:'الطاقة الشمسية',b:'انخفضت تكلفتها 90% خلال 10 سنوات. تُعدّ الآن الأرخص في التاريخ وفق IRENA 2023.',more:'وصلت كفاءة الخلايا الضوئية التجارية 22-26%. خلايا الجيل الثالث الجديدة (البيروفسكايت) قد تتجاوز 33%.'},
+      {i:'🌬️',t:'طاقة الرياح',b:'توربينات ضخمة برية وبحرية تُولّد كهرباء نظيفة. الدنمارك تحصل على 50%+ من احتياجاتها من الرياح.',more:'الرياح البحرية أقوى وأكثر استمرارية — مزارع الرياح البحرية العائمة تفتح آفاقاً هائلة في المياه العميقة.'},
+      {i:'💧',t:'الطاقة المائية والجيوحرارية',b:'السدود الكهرومائية توفر 16% من الكهرباء العالمية. الجيوحرارية تعمل 24/7 دون انقطاع.',more:'إثيوبيا وإثيوبيا لديها أكبر احتياطيات جيوحرارية في أفريقيا — إيسلندا تعمل 90% على الطاقة المتجددة.'},
+      {i:'🔋',t:'تخزين الطاقة',b:'بطاريات الليثيوم وخلايا الهيدروجين تحل تحدي توقف الشمس والرياح.',more:'تكلفة بطاريات الليثيوم انخفضت 97% خلال 30 عاماً. الهيدروجين الأخضر سيثور قطاعات الصناعة الثقيلة.'}
+    ],
+    fact:{e:'⚡',l:'رقم مذهل',t:'IRENA 2023: تجاوزت قدرة الطاقة الشمسية وطاقة الرياح عالمياً 2 تيراواط — كافية لتوفير كهرباء لـ 2 مليار شخص.'},
+    refs:[
+      {t:'IRENA (2024). Renewable Power Generation Costs in 2023.',u:'https://www.irena.org/Publications/2024/Sep/Renewable-Power-Generation-Costs-in-2023'},
+      {t:'IEA (2023). World Energy Outlook 2023 — Executive Summary (free access).',u:'https://www.iea.org/reports/world-energy-outlook-2023'},
+      {t:'Our World in Data. Renewable Energy.',u:'https://ourworldindata.org/renewable-energy'},
+      {t:'IRENA. Energy Transition Data & Statistics.',u:'https://www.irena.org/Data'}
+    ]
+  },
+  en:{title:'Renewable Energy — The Clean Revolution',intro:'In 2023, half of all new power capacity globally came from renewables. Solar became the cheapest energy source in history.',
+    cards:[
+      {i:'☀️',t:'Solar Energy',b:'Cost fell 90% in 10 years. Now the cheapest in history according to IRENA 2023.',more:'Commercial solar cell efficiency reached 22-26%. Next-gen perovskite cells may exceed 33%.'},
+      {i:'🌬️',t:'Wind Energy',b:'Massive onshore and offshore turbines generate clean electricity. Denmark gets 50%+ from wind.',more:'Offshore wind is stronger and more consistent — floating offshore farms open vast potential in deep waters.'},
+      {i:'💧',t:'Hydro & Geothermal',b:'Hydroelectric dams provide 16% of global electricity. Geothermal runs 24/7 without interruption.',more:'Iceland runs 90% on renewables. Geothermal and hydro provide baseload power renewables alone cannot match.'},
+      {i:'🔋',t:'Energy Storage',b:'Lithium batteries and hydrogen cells solve the intermittency challenge of sun and wind.',more:'Lithium battery costs fell 97% over 30 years. Green hydrogen will revolutionize heavy industry decarbonization.'}
+    ],
+    fact:{e:'⚡',l:'Astonishing Number',t:'IRENA 2023: Global solar and wind capacity exceeded 2 terawatts — enough to power 2 billion people.'},
+    refs:['IRENA (2023). Renewable Power Generation Costs.','IEA (2023). World Energy Outlook.','BloombergNEF (2023). New Energy Outlook.']
+  }
+ },
+ {
+  id:'oceans', icon:'🌊', color:'#1a6fa3', tag:'8',
+  ar:{title:'المحيطات والبحار — رئة الأرض الزرقاء',intro:'المحيطات تُغطي 71% من الأرض وتُنتج 50% من أكسجيننا وتمتص 25% من CO₂ — ومع ذلك تتدهور بصمت.',
+    cards:[
+      {i:'🧪',t:'تحمض المحيطات',b:'امتصاص CO₂ رفع حمضية المحيطات 26% منذ الثورة الصناعية — يُذيب قواقع الكائنات ويقتل الشعاب.',more:'حمضية المحيطات ستتضاعف مقارنة بما قبل الصناعة بحلول 2100 في سيناريوهات الانبعاثات العالية.'},
+      {i:'🪸',t:'تبييض الشعاب المرجانية',b:'ارتفاع درجة حرارة المحيط يطرد الطحالب الرمزية من الشعاب — تتحول بيضاء ثم تموت.',more:'الحاجز المرجاني العظيم في أستراليا عانى من 5 حوادث تبييض جماعي بين 1998 و2022 — أسوأها كان 2016.'},
+      {i:'🐟',t:'الصيد الجائر',b:'34% من الأسماك تُستغل فوق طاقتها الطبيعية. انهارت مجموعات القد الأطلسي والتونة الزرقاء.',more:'الصيد غير القانوني يُكلف الاقتصاد العالمي 23 مليار دولار سنوياً ويدمر المجتمعات الساحلية المعتمدة على الصيد.'},
+      {i:'🛢️',t:'تلوث البلاستيك',b:'تتراوح أحدث التقديرات بين 1-2 مليون طن بلاستيك تدخل المحيطات سنوياً (Our World in Data 2023). بقعة بلاستيك في الهادئ بحجم فرنسا مرتين.',more:'الميكروبلاستيك اكتُشف في خندق ماريانا أعمق نقطة بالأرض، وفي دم الإنسان ولبن الأمهات وفق أبحاث 2022.'}
+    ],
+    fact:{e:'🌊',l:'حقيقة مرعبة',t:'تُقدّر أحدث الدراسات دخول 1-2 مليون طن بلاستيك للمحيطات سنوياً. تقرير Ellen MacArthur Foundation يتوقع أنه بحلول 2050 سيتجاوز وزن البلاستيك في المحيطات وزن الأسماك إن لم تتغير الأنماط الحالية.'},
+    refs:[
+      {t:'IPCC (2019). Special Report on the Ocean and Cryosphere (SROCC).',u:'https://www.ipcc.ch/srocc/'},
+      {t:'NOAA. Ocean Acidification Program.',u:'https://www.noaa.gov/education/resource-collections/ocean-coasts/ocean-acidification'},
+      {t:'IUCN. Ocean — Marine Biodiversity Issues.',u:'https://www.iucn.org/our-work/topic/ocean'},
+      {t:'Our World in Data. Ocean Plastics — How much enters the ocean?',u:'https://ourworldindata.org/how-much-plastic-waste-ends-up-in-the-ocean'}
+    ]
+  },
+  en:{title:'Oceans & Seas — Earth\'s Blue Lungs',intro:'Oceans cover 71% of Earth, produce 50% of our oxygen, absorb 25% of CO₂ — yet they are silently deteriorating.',
+    cards:[
+      {i:'🧪',t:'Ocean Acidification',b:'Absorbing CO₂ raised ocean acidity 26% since the Industrial Revolution — dissolving shells and killing reefs.',more:'Ocean acidity will double compared to pre-industrial levels by 2100 in high-emission scenarios.'},
+      {i:'🪸',t:'Coral Bleaching',b:'Rising ocean temperatures expel symbiotic algae from corals — they turn white, then die.',more:'The Great Barrier Reef suffered 5 mass bleaching events between 1998 and 2022 — the worst in 2016.'},
+      {i:'🐟',t:'Overfishing',b:'34% of fish stocks are overexploited. Atlantic cod and bluefin tuna populations have collapsed.',more:'Illegal fishing costs the global economy $23 billion annually and destroys coastal fishing communities.'},
+      {i:'🛢️',t:'Plastic Pollution',b:'8 million tons enter oceans annually. A plastic patch in the Pacific is twice the size of France.',more:'Microplastics reached the deepest point on Earth — the Mariana Trench — and are now found in human blood and breast milk.'}
+    ],
+    fact:{e:'🌊',l:'Alarming Fact',t:'Latest research estimates 1–2 million tons of plastic enter oceans annually (Our World in Data, 2023). The Ellen MacArthur Foundation projects that by 2050, plastic in oceans will outweigh fish if current trends continue.'},
+    refs:['IPCC (2022). Ocean, Cryosphere and Climate Change Report.','IUCN (2023). Ocean Deoxygenation.','WWF (2022). Living Blue Planet Report.']
+  }
+ },
+ {
+  id:'forests', icon:'🌳', color:'#1a5c2a', tag:'9',
+  ar:{title:'الغابات — رئتا الأرض',intro:'الغابات تُغطي 31% من اليابسة وتمتص 2.6 مليار طن CO₂ سنوياً — لكن نفقد مساحة بحجم ملعب كرة قدم كل ثانية.',
+    cards:[
+      {i:'🌲',t:'الغابات الاستوائية',b:'7% من الأرض لكن 50%+ من الأنواع الحية. الأمازون وحده يُنتج 20% من أكسجين الكوكب.',more:'الأمازون يقترب من نقطة التحول — إذا أُزيل 25% منه قد يتحول إلى سافانا في تسلسل لا يمكن وقفه.'},
+      {i:'🌿',t:'إزالة الغابات',b:'نفقد 10 ملايين هكتار سنوياً — معظمها في البرازيل وإندونيسيا والكونغو.',more:'زراعة النخيل والصويا وتربية الماشية مسؤولة عن 73% من إزالة الغابات الاستوائية.'},
+      {i:'🏜️',t:'التصحر',b:'سنوياً تفقد 12 مليون هكتار من الأراضي الخصبة للتصحر. 1.5 مليار إنسان يتأثرون.',more:'السور الأخضر العظيم في أفريقيا يسعى لزرع 100 مليون هكتار عبر 21 دولة لوقف زحف الصحراء.'},
+      {i:'🌱',t:'إعادة التشجير',b:'عقد الأمم المتحدة للاستعادة 2021-2030 يستهدف مليارات الهكتارات. اليمكن للشجرة أن تُغير مناخ منطقة.',more:'مبادرة 1 تريليون شجرة: أُعلن عن زرع 14 مليار شجرة حتى 2023. الجودة أهم من الكمية — أنواع محلية في بيئتها.'}
+    ],
+    fact:{e:'🌳',l:'معلومة حيوية',t:'Global Forest Watch: نفقد 27 هكتاراً من الغابات كل دقيقة — مساحة 40 ملعب كرة قدم. الأمازون فقد 20% من مساحته خلال 50 عاماً.'},
+    refs:[
+      {t:'FAO (2020). Global Forest Resources Assessment 2020.',u:'https://www.fao.org/forest-resources-assessment/past-assessments/fra-2020/en/'},
+      {t:'Global Forest Watch (2024). Forest Monitoring — Real-time Data.',u:'https://www.globalforestwatch.org/'},
+      {t:'UNCCD (2022). Global Land Outlook 2.',u:'https://www.unccd.int/resources/global-land-outlook/glo2'},
+      {t:'Our World in Data. Forests and Deforestation.',u:'https://ourworldindata.org/forests-and-deforestation'}
+    ]
+  },
+  en:{title:'Forests — Earth\'s Lungs',intro:'Forests cover 31% of land and absorb 2.6 billion tons of CO₂ annually — yet we lose an area the size of a football pitch every second.',
+    cards:[
+      {i:'🌲',t:'Tropical Forests',b:'7% of land but 50%+ of all species. The Amazon alone produces 20% of the planet\'s oxygen.',more:'The Amazon approaches a tipping point — if 25% is removed it may convert to savanna in an unstoppable cascade.'},
+      {i:'🌿',t:'Deforestation',b:'We lose 10 million hectares annually — mostly in Brazil, Indonesia, and the Congo.',more:'Palm oil, soy farming, and cattle ranching account for 73% of tropical deforestation.'},
+      {i:'🏜️',t:'Desertification',b:'12 million hectares of fertile land are lost to desertification annually. 1.5 billion people are affected.',more:'The Great Green Wall of Africa aims to plant 100 million hectares across 21 countries to stop desert expansion.'},
+      {i:'🌱',t:'Reforestation',b:'The UN Restoration Decade 2021-2030 targets billions of hectares. One tree can change a region\'s climate.',more:'Trillion Trees Initiative: 14 billion trees planted by 2023. Quality matters more than quantity — native species in their ecosystems.'}
+    ],
+    fact:{e:'🌳',l:'Vital Information',t:'Global Forest Watch: We lose 27 hectares of forest every minute — the size of 40 football pitches. The Amazon lost 20% of its area over 50 years.'},
+    refs:['FAO (2020). Global Forest Resources Assessment.','Global Forest Watch (2023). Annual Deforestation Report.','UNCCD (2022). Global Land Outlook.']
+  }
+ },
+ {
+  id:'waste', icon:'♻️', color:'#7b4fb0', tag:'10',
+  ar:{title:'النفايات وإعادة التدوير',intro:'ننتج 2.01 مليار طن نفايات بلدية صلبة سنوياً (البنك الدولي 2020). بحلول 2050 ستبلغ 3.4 مليار طن — أزمة صامتة تعتصر كوكبنا.',
+    cards:[
+      {i:'🗑️',t:'أزمة النفايات الصلبة',b:'البنك الدولي (What a Waste 2.0): ننتج 2.01 مليار طن نفايات بلدية صلبة سنوياً. أكثر من 33% منها لا تُدار بشكل سليم.',more:'الدول ذات الدخل المنخفض تُدير نفاياتها بشكل سليم بنسبة 4% فقط. تُحرق أو تُرمى دون معالجة.'},
+      {i:'🧴',t:'البلاستيك',b:'اُنتج 9 مليار طن بلاستيك منذ 1950 — 9% فقط أُعيد تدويره، 12% أُحرق، 79% في مكبات أو بيئة.',more:'البلاستيك الأحادي الاستخدام يُستخدم بالمتوسط 12 دقيقة ثم يبقى في البيئة 400-1000 سنة.'},
+      {i:'💻',t:'النفايات الإلكترونية',b:'53 مليون طن نفايات إلكترونية سنوياً. تحتوي ذهباً وفضة وكوبالتاً قيمته مليارات.',more:'النفايات الإلكترونية تحتوي 70+ مادة كيماوية خطرة تسرب في التربة والمياه عند التخلص غير السليم.'},
+      {i:'🔄',t:'الاقتصاد الدائري',b:'تصميم المنتجات بحيث تُعاد إلى الدورة الإنتاجية — هدف أوروبا بلوغه بالكامل بحلول 2050.',more:'هولندا رائدة في الاقتصاد الدائري — قطاع بناء دائري يوفر 900 مليون يورو ويُشغّل 50,000 وظيفة.'}
+    ],
+    fact:{e:'♻️',l:'واقع مؤلم',t:'وفق Roland Geyer et al. (2017) في Science Advances: 91% من البلاستيك المنتَج تاريخياً لم يُعَد تدويره. UNEP تتوقع أن يصل البلاستيك في البيئة إلى 600 مليون طن بحلول 2040 إن لم تتغير الأنماط.'},
+    refs:[
+      {t:'World Bank (2018). What a Waste 2.0: A Global Snapshot of Solid Waste Management to 2050.',u:'https://datatopics.worldbank.org/what-a-waste/'},
+      {t:'Geyer R. et al. (2017). Production, use, and fate of all plastics ever made. Science Advances, 3(7). [مفتوح الوصول]',u:'https://www.science.org/doi/10.1126/sciadv.1700782'},
+      {t:'UNEP (2023). Turning off the Tap: How the World Can End Plastic Pollution — Plastic Pollution Hub.',u:'https://www.unep.org/plastic-pollution'},
+      {t:'Ellen MacArthur Foundation (2022). Completing the Picture: Circular Economy.',u:'https://www.ellenmacarthurfoundation.org/completing-the-picture'}
+    ]
+  },
+  en:{title:'Waste & Recycling',intro:'We generate 2.01 billion tons of municipal solid waste annually (World Bank 2020). By 2050 this will reach 3.4 billion tons — a silent crisis crushing our planet.',
+    cards:[
+      {i:'🗑️',t:'Solid Waste Crisis',b:'World Bank (What a Waste 2.0): 2.01 billion tons of municipal solid waste annually. Over 33% is not managed in an environmentally safe manner.',more:'Low-income countries properly manage only 4% of their waste. The rest is burned or dumped without treatment.'},
+      {i:'🧴',t:'Plastic',b:'9 billion tons of plastic produced since 1950 — only 9% recycled, 12% incinerated, 79% in landfills or environment.',more:'Single-use plastic is used an average of 12 minutes, then persists in the environment for 400-1,000 years.'},
+      {i:'💻',t:'Electronic Waste',b:'53 million tons of e-waste annually. Contains gold, silver, and cobalt worth billions.',more:'E-waste contains 70+ hazardous chemicals that leach into soil and water when improperly disposed of.'},
+      {i:'🔄',t:'Circular Economy',b:'Designing products to return to the production cycle — Europe aims for full circularity by 2050.',more:'The Netherlands leads in circular economy — a circular building sector saves €900 million and employs 50,000 people.'}
+    ],
+    fact:{e:'♻️',l:'Painful Reality',t:'Geyer et al. (2017, Science Advances): 91% of all plastic ever produced has never been recycled. UNEP projects that plastic in the environment will reach 600 million tons by 2040 without systemic change.'},
+    refs:['World Bank (2022). What a Waste 2.0.','UNEP (2023). Plastic Pollution Report.','Ellen MacArthur Foundation (2022). Circular Economy Report.']
+  }
+ },
+ {
+  id:'agriculture', icon:'🥦', color:'#3a7d3a', tag:'11',
+  ar:{title:'الزراعة المستدامة والأمن الغذائي',intro:'الزراعة تستهلك 70% من المياه العذبة و40% من الأراضي. يجب أن نُغذّي 10 مليار إنسان بحلول 2050 دون تدمير الأرض.',
+    cards:[
+      {i:'🌾',t:'الزراعة العضوية',b:'تُقلص الكيماويات وتُعزز التنوع البيولوجي. السوق العالمية للأغذية العضوية بلغت 206 مليار دولار 2022.',more:'الزراعة العضوية تُنتج حشرات ملقّحة أكثر بنسبة 50% وطيوراً أكثر بنسبة 75% مقارنة بالزراعة التقليدية.'},
+      {i:'🏗️',t:'الزراعة الرأسية والمائية',b:'إنتاج داخلي بدون تربة وبـ 95% أقل ماءً — مستقبل الأمن الغذائي الحضري.',more:'كيلوغرام خس في الزراعة الرأسية يحتاج 1 لتر ماء مقابل 250 لتراً في الزراعة التقليدية.'},
+      {i:'🍽️',t:'هدر الغذاء',b:'ثلث الإنتاج الغذائي العالمي يُهدر — كافٍ لإطعام كل جائع على الأرض مرتين.',more:'هدر الغذاء مسؤول عن 8-10% من انبعاثات الغازات الدفيئة. تقليله 50% يُعادل سحب 1.3 مليار سيارة من الطريق.'},
+      {i:'🐄',t:'الإنتاج الحيواني',b:'تستهلك الثروة الحيوانية 77% من الأراضي الزراعية لتوفير 18% فقط من السعرات.',more:'اللحوم الاصطناعية (المزروعة في المختبر) ستُقلص استخدام الأرض 99% والماء 96% واستهلاك الطاقة 45%.'}
+    ],
+    fact:{e:'🥦',l:'تحدي جيلنا',t:'FAO: نحتاج زيادة الإنتاج الغذائي 70% بحلول 2050 لإطعام 10 مليار إنسان — دون توسيع مساحة الأراضي المستغلة.'},
+    refs:[
+      {t:'FAO (2022). The State of Food and Agriculture (SOFA) 2022.',u:'https://www.fao.org/publications/sofa/2022/en/'},
+      {t:'UNEP (2021). Food Waste Index Report 2021.',u:'https://www.unep.org/resources/report/unep-food-waste-index-report-2021'},
+      {t:'EAT-Lancet Commission (2019). Food in the Anthropocene — Summary Report (مجاني).',u:'https://eatforum.org/eat-lancet-commission/eat-lancet-commission-summary-report/'},
+      {t:'Our World in Data. Environmental Impacts of Food Production.',u:'https://ourworldindata.org/environmental-impacts-of-food'}
+    ]
+  },
+  en:{title:'Sustainable Agriculture & Food Security',intro:'Agriculture consumes 70% of freshwater and 40% of land. We must feed 10 billion people by 2050 without destroying the Earth.',
+    cards:[
+      {i:'🌾',t:'Organic Farming',b:'Cuts chemicals and enhances biodiversity. Global organic food market reached $206 billion in 2022.',more:'Organic farming supports 50% more pollinating insects and 75% more birds than conventional farming.'},
+      {i:'🏗️',t:'Vertical & Hydroponic Farming',b:'Indoor, soil-free production using 95% less water — the future of urban food security.',more:'One kilogram of lettuce in vertical farming needs 1 liter of water vs. 250 liters in traditional agriculture.'},
+      {i:'🍽️',t:'Food Waste',b:'One-third of global food production is wasted — enough to feed every hungry person on Earth twice.',more:'Food waste accounts for 8-10% of greenhouse gas emissions. Halving it equals removing 1.3 billion cars from roads.'},
+      {i:'🐄',t:'Animal Production',b:'Livestock uses 77% of agricultural land to provide only 18% of calories.',more:'Lab-grown meat will reduce land use by 99%, water by 96%, and energy consumption by 45%.'}
+    ],
+    fact:{e:'🥦',l:'Our Generation\'s Challenge',t:'FAO: We need to increase food production 70% by 2050 to feed 10 billion people — without expanding cultivated land.'},
+    refs:['FAO (2022). State of Food and Agriculture.','UNEP (2022). Food Waste Index.','EAT-Lancet Commission (2019). Food in the Anthropocene.']
+  }
+ },
+ {
+  id:'cities', icon:'🏙️', color:'#c08020', tag:'12',
+  ar:{title:'المدن الذكية والبيئة الحضرية',intro:'55% من البشر في مدن — بحلول 2050 ستبلغ 68%. تُستهلك المدن 78% من الطاقة العالمية وتُنتج 60% من الانبعاثات.',
+    cards:[
+      {i:'🌿',t:'التخطيط الحضري الأخضر',b:'المساحات الخضراء تُبرّد المدن وتُنقّي الهواء وتُحسّن الصحة النفسية للمقيمين.',more:'زيادة الغطاء النباتي الحضري بنسبة 10% تُقلص درجة الحرارة 4 درجات — تُنقذ أرواحاً خلال موجات الحر.'},
+      {i:'🚌',t:'النقل المستدام',b:'النقل يُنتج 24% من انبعاثات CO₂. السيارات الكهربائية والمترو والدراجات تُحوّل المدن.',more:'مدينة أوسلو: صفر سيارات في مركزها التاريخي. أمستردام: 60% من التنقل بالدراجات. نماذج قابلة للتطبيق.'},
+      {i:'🏢',t:'المباني الموفرة للطاقة',b:'المباني تستهلك 40% من الطاقة العالمية. العزل الحراري والزجاج الذكي والطاقة الشمسية تغيّر المعادلة.',more:'معيار المبنى السلبي (Passive House) يُقلص استهلاك التدفئة والتبريد بنسبة تصل 90% مع نفس الراحة.'},
+      {i:'📡',t:'البنية التحتية الذكية',b:'سنغافورة وكوبنهاغن: شبكات ذكية وإدارة نفايات وأضواء تكيفية تُحسن الكفاءة الحضرية.',more:'إدارة النفايات بالذكاء الاصطناعي في سنغافورة قلّصت التكاليف 30% وزادت معدلات إعادة التدوير 40%.'}
+    ],
+    fact:{e:'🏙️',l:'رقم مفاجئ',t:'UN-Habitat: مدن العالم تشغل 3% فقط من مساحة الأرض لكنها تستهلك 78% من الطاقة وتُنتج 60% من انبعاثات الكربون.'},
+    refs:[
+      {t:'UN-Habitat (2022). World Cities Report 2022: Envisaging the Future of Cities.',u:'https://unhabitat.org/wcr/'},
+      {t:'C40 Cities (2024). Annual Report: Building Fairer, Safer and Greener Communities.',u:'https://www.c40.org/news/c40-2024-annual-report/'},
+      {t:'IPCC (2022). AR6 WGIII Chapter 8 — Urban Systems and Other Settlements.',u:'https://www.ipcc.ch/report/ar6/wg3/chapter/chapter-8/'},
+      {t:'Our World in Data. Urbanization.',u:'https://ourworldindata.org/urbanization'}
+    ]
+  },
+  en:{title:'Smart Cities & Urban Environment',intro:'55% of humans live in cities — by 2050, 68%. Cities consume 78% of global energy and produce 60% of emissions.',
+    cards:[
+      {i:'🌿',t:'Green Urban Planning',b:'Green spaces cool cities, purify air, and improve mental health for residents.',more:'Increasing urban green cover by 10% reduces temperature by 4 degrees — saving lives during heat waves.'},
+      {i:'🚌',t:'Sustainable Transport',b:'Transport produces 24% of CO₂ emissions. EVs, metro, and cycling are transforming cities.',more:'Oslo: zero cars in its historic center. Amsterdam: 60% of travel by bicycle. Models ready to replicate.'},
+      {i:'🏢',t:'Energy-Efficient Buildings',b:'Buildings consume 40% of global energy. Insulation, smart glass, and solar are changing the equation.',more:'Passive House standard reduces heating and cooling consumption by up to 90% with the same comfort level.'},
+      {i:'📡',t:'Smart Infrastructure',b:'Singapore and Copenhagen: smart grids, waste management, and adaptive lighting improve urban efficiency.',more:'AI-based waste management in Singapore cut costs 30% and increased recycling rates by 40%.'}
+    ],
+    fact:{e:'🏙️',l:'Surprising Number',t:'UN-Habitat: World cities occupy only 3% of land but consume 78% of energy and produce 60% of carbon emissions.'},
+    refs:['UN-Habitat (2022). World Cities Report.','C40 Cities (2023). Climate Action Planning.','McKinsey (2023). Smart Cities Report.']
+  }
+ },
+ {
+  id:'education', icon:'📚', color:'#c43e8c', tag:'13',
+  ar:{title:'التعليم والوعي البيئي',intro:'المعرفة هي أول خطوة للتغيير. الأفراد المثقفون بيئياً يُخفضون بصمتهم الكربونية بنسبة 30% أكثر من غيرهم.',
+    cards:[
+      {i:'🏫',t:'التعليم للاستدامة (ESD)',b:'برنامج UNESCO ESD يدمج الوعي البيئي في مناهج 150 دولة. الجيل الجديد يُغيّر عالمه.',more:'دراسات تُثبت أن الطلاب الذين تعلموا عن البيئة يتبنون سلوكاً أخضر في بيوتهم ويُؤثرون عائلاتهم.'},
+      {i:'📱',t:'الإعلام والتوعية الرقمية',b:'التواصل الاجتماعي سلاح بيئي — حملات كـ FridaysForFuture وصلت لملايين بتكلفة صفر.',more:'الوسم البيئي على يوتيوب حقق 23 مليار مشاهدة في 2022. المحتوى البصري يُغيّر المواقف بشكل أسرع 60,000× من النص.'},
+      {i:'🌍',t:'أيام ومناسبات بيئية',b:'يوم الأرض (22 أبريل)، يوم البيئة العالمي (5 يونيو)، أسبوع المناخ — محطات توعوية سنوية.',more:'يوم الأرض يستقطب 1 مليار مشارك في 193 دولة — أكبر حدث مدني في تاريخ البشرية.'},
+      {i:'👣',t:'البصمة البيئية الشخصية',b:'احسب كمية CO₂ الذي تُنتجه يومياً. الغذاء والتنقل والإسكان المسؤولون الرئيسيون.',more:'الفرد في أمريكا يُنتج 16 طن CO₂ سنوياً مقابل 1.9 طن في الهند. التحول لنباتي يُقلص البصمة 73%.'}
+    ],
+    fact:{e:'📚',l:'قوة المعرفة',t:'دراسة Yale: الأفراد الملتزمون بالتعليم البيئي يُقلصون استهلاك الطاقة 20% وإنتاج النفايات 30% ويدعمون السياسات البيئية بنسبة 65% أكثر.'},
+    refs:[
+      {t:'UNESCO (2021). Education for Sustainable Development — A Roadmap.',u:'https://unesdoc.unesco.org/ark:/48223/pf0000374802'},
+      {t:'UNEP (2023). Young People and the Environment.',u:'https://www.unep.org/explore-topics/youth-engagement'},
+      {t:'Yale Program on Climate Change Communication.',u:'https://climatecommunication.yale.edu/'},
+      {t:'Our World in Data. Environmental Research Explorer.',u:'https://ourworldindata.org/environment'}
+    ]
+  },
+  en:{title:'Environmental Education & Awareness',intro:'Knowledge is the first step to change. Environmentally educated individuals reduce their carbon footprint 30% more than others.',
+    cards:[
+      {i:'🏫',t:'Education for Sustainability (ESD)',b:'UNESCO\'s ESD program integrates environmental awareness in curricula across 150 countries.',more:'Studies show that students who learned about the environment adopt green behavior at home and influence their families.'},
+      {i:'📱',t:'Media & Digital Awareness',b:'Social media is an environmental tool — #FridaysForFuture reached millions at zero cost.',more:'Environmental YouTube content got 23 billion views in 2022. Visual content changes attitudes 60,000x faster than text.'},
+      {i:'🌍',t:'Environmental Events',b:'Earth Day (April 22), World Environment Day (June 5), Climate Week — annual awareness milestones.',more:'Earth Day attracts 1 billion participants in 193 countries — the largest civic event in human history.'},
+      {i:'👣',t:'Personal Ecological Footprint',b:'Calculate your daily CO₂ output. Food, transport, and housing are the primary contributors.',more:'The average American produces 16 tons of CO₂ annually vs. 1.9 tons in India. Going plant-based cuts footprint by 73%.'}
+    ],
+    fact:{e:'📚',l:'The Power of Knowledge',t:'Yale study: Individuals committed to environmental education cut energy consumption 20%, waste 30%, and support environmental policies 65% more.'},
+    refs:['UNESCO (2021). Education for Sustainable Development.','UNEP (2022). Youth and Environment Report.','Yale Program on Climate Change Communication (2023).']
+  }
+ }
+];
+
+// ═══ RENDER ══════════════════════════════════════════
+const content = document.getElementById('content');
+const tabsInner = document.getElementById('tabs-inner');
+const sideNav = document.getElementById('sidenav');
+const isAr = ()=>!document.body.classList.contains('en');
+
+function getLang(sec){ return isAr() ? sec.ar : sec.en; }
+
+const TOPICS={
+  water:['الجزر الحرارية الحضرية وأثرها على دورة المياه المحلية','نضوب طبقة Ogallala الجوفية ومخاطرها على الأمن الغذائي العالمي','تحلية المياه بالطاقة الشمسية وتراجع تكاليفها'],
+  air:['الضباب الضوئي الكيميائي (Photochemical Smog) وكيف يتشكل','تأثير تلوث الهواء الداخلي مقارنةً بالخارجي على الصحة','الجسيمات الدقيقة PM1.0 وما هو أصغر من PM2.5'],
+  soil:['الميكروبيوم التربة وعلاقته المباشرة بصحة الإنسان','الزراعة التجديدية (Regenerative Agriculture) كحل مناخي','التعدين المفتوح وتدميره للأفق العلوي الخصب للتربة'],
+  wildlife:['انهيار مستعمرات النحل وأزمة الملقحات العالمية','الممرات البيئية (Wildlife Corridors) لربط المحميات الطبيعية','الأنواع الغازية وتأثيرها المدمر على التوازن البيئي'],
+  protection:['العدالة البيئية وتركّز التلوث على المجتمعات الفقيرة','احتجاز الكربون وتخزينه تحت الأرض (CCS) — هل هو حل حقيقي؟','الديمقراطية البيئية وحق المجتمعات في الوصول للمعلومات'],
+  climate:['نقاط التحول المناخية (Tipping Points) وحدود اللاعودة','ظاهرة الحرارة الرطبة الشديدة (Wet-Bulb Temperature) وحدود تحمّل الجسم','اللاجئون المناخيون والتهجير البيئي القسري'],
+  energy:['الهيدروجين الأخضر كوقود المستقبل وتحدياته التقنية','الطاقة النووية في مواجهة تغير المناخ — نقاش حقيقي','تخزين الطاقة المتجددة: البطاريات الصلبة الحالة (Solid-State)'],
+  oceans:['تحمض المحيطات وتأثيره على الشعاب المرجانية وسلاسل الغذاء','الحيتان كمخازن طبيعية للكربون (Blue Carbon)','الثروة المعدنية في قيعان البحار وأخلاقيات استغلالها'],
+  forests:['شبكات الفطريات بين الأشجار وما يُعرف بـ Wood Wide Web','المانغروف: الغابات الزرقاء الساحلية ودورها في حماية الشواطئ','الحرائق الطبيعية وأهميتها الإيكولوجية في تجديد الغابات'],
+  waste:['التلوث النانوبلاستيكي في سلسلة الغذاء والدم البشري','حق الإصلاح (Right to Repair) وتمديد عمر المنتجات الإلكترونية','تحويل النفايات العضوية إلى بيوغاز وسماد'],
+  agriculture:['الزراعة العمودية (Vertical Farming) في المدن والمستقبل الغذائي','أثر صناعة اللحوم على انبعاثات الميثان العالمية','بنوك البذور وحفظ التنوع الوراثي الزراعي من الانقراض'],
+  cities:['الجزر الحرارية الحضرية (Urban Heat Islands) وحلول التبريد الطبيعي','المدن الإسفنجية (Sponge Cities) لاستيعاب فيضانات الأمطار','البصمة الكربونية للبنية التحتية الرقمية ومراكز البيانات'],
+  education:['القلق المناخي (Eco-Anxiety) وأثره على الصحة النفسية للشباب','دور الفن والأدب والسينما في تشكيل الوعي البيئي','التربية البيئية عبر الألعاب التفاعلية والفضاء الافتراضي']
+};
+
+function render(){
+  content.innerHTML='';
+  tabsInner.innerHTML='';
+  sideNav.innerHTML='';
+
+  SECTIONS.forEach((sec,i)=>{
+    // Tab
+    const tab=document.createElement('button');
+    tab.className='tab'+(activeSection===sec.id?' on':'');
+    tab.innerHTML=`<span>${sec.icon}</span><span class="tab-label">${isAr()?sec.ar.title.split('—')[0].trim():sec.en.title.split('—')[0].trim()}</span>`;
+    tab.onclick=()=>navTo(sec.id);
+    tabsInner.appendChild(tab);
+
+    // Sidebar btn
+    const sb=document.createElement('button');
+    sb.className='sn-btn'+(activeSection===sec.id?' on':'');
+    sb.title=isAr()?sec.ar.title:sec.en.title;
+    sb.innerHTML=`${sec.icon}<span class="tip">${isAr()?sec.ar.title.split('—')[0].trim():sec.en.title.split('—')[0].trim()}</span>`;
+    sb.onclick=()=>navTo(sec.id);
+    sideNav.appendChild(sb);
+
+    // Section
+    const d=getLang(sec);
+    const divEl=i>0?'<hr class="div"/>':'';
+
+    let inner='';
+    if(sec.isTips){
+      inner=`<ul class="tips">`+d.tips.map((t,j)=>`
+        <li class="tip anim" style="animation-delay:${j*.07}s">
+          <div class="tip-n">${String(j+1).padStart(2,'0')}</div>
+          <div><b data-edit>${t.t}</b><p data-edit>${t.d}</p></div>
+        </li>`).join('')+`</ul>`;
+    } else {
+      inner=`<div class="cards">`+d.cards.map(c=>`
+        <div class="card" onclick="toggleCard(this)">
+          <div class="card-top"><span class="card-ico">${c.i}</span><span class="card-arrow">▼</span></div>
+          <h3 data-edit>${c.t}</h3>
+          <div class="card-body" data-edit>${c.b}</div>
+          <div class="card-more" data-edit>${c.more||''}</div>
+        </div>`).join('')+`</div>`;
+    }
+
+    const tps = TOPICS[sec.id]||[];
+    const topicsEl = tps.length?`<div class="dig-deeper">
+      <span class="dd-label">🔬 ${isAr()?'للمهتمين — ابحث أكثر':'Dig Deeper — Explore Further'}</span>
+      <ul>${tps.map(t=>`<li>${t}</li>`).join('')}</ul></div>`:'';
+
+    const factColor = sec.color || 'var(--acc)';
+    const factEl = d.fact ? `<div class="fact" style="border-color:${factColor}">
+      <span class="fact-em">${d.fact.e}</span>
+      <div><div class="fact-label" style="color:${factColor}">${d.fact.l}</div>
+      <div class="fact-tx" data-edit>${d.fact.t}</div></div></div>` : '';
+
+    const refList = sec.ar.refs;
+    const refsEl=`<div class="refs"><h4>📚 ${isAr()?'المراجع والمصادر':'References & Sources'}</h4>
+      <ul>${refList.map(r=>{
+        const isObj = typeof r === 'object';
+        const txt = isObj ? r.t : r;
+        const url = isObj ? r.u : null;
+        const dot = txt.indexOf('.');
+        const bold = `<strong>${txt.slice(0,dot+1)}</strong>`;
+        const rest = txt.slice(dot+1);
+        return url
+          ? `<li><a href="${url}" target="_blank" rel="noopener noreferrer">${bold}${rest}</a></li>`
+          : `<li class="no-link">${bold}${rest}</li>`;
+      }).join('')}</ul></div>`;
+
+    content.insertAdjacentHTML('beforeend', `
+      ${divEl}
+      <section class="sec" id="${sec.id}">
+        <div class="sec-head">
+          <div class="sec-ico" style="background:linear-gradient(135deg,${sec.color},${sec.color}99)">${sec.icon}</div>
+          <div class="sec-meta">
+            <span class="tag">${isAr()?'المحور '+sec.tag:'Topic '+sec.tag}</span>
+            <h2 data-edit>${d.title}</h2>
+            <p data-edit>${d.intro}</p>
+          </div>
+        </div>
+        ${inner}
+        ${topicsEl}
+        ${factEl}
+        ${refsEl}
+      </section>`);
+  });
+
+  // Re-apply admin if on
+  if(document.body.classList.contains('admin-on')){
+    document.querySelectorAll('[data-edit]').forEach(el=>{el.contentEditable='true'});
+  }
+}
+
+// ═══ NAVIGATION ══════════════════════════════════════
+let activeSection='water';
+
+function navTo(id){
+  document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function cinematic(e,id){
+  e.preventDefault();
+  navTo(id);
+}
+
+// ═══ TABS ACTIVE ON SCROLL ═══════════════════════════
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      activeSection=entry.target.id;
+      document.querySelectorAll('.tab').forEach((t,i)=>{
+        t.classList.toggle('on', SECTIONS[i].id===activeSection);
+      });
+      document.querySelectorAll('.sn-btn').forEach((b,i)=>{
+        b.classList.toggle('on', SECTIONS[i].id===activeSection);
+      });
+      if(focusMode){
+        document.querySelectorAll('.sec').forEach(s=>s.classList.remove('in-view'));
+        entry.target.classList.add('in-view');
+      }
+    }
+  });
+},{threshold:.25,rootMargin:'-130px 0px 0px 0px'});
+
+// ═══ PROGRESS BAR ════════════════════════════════════
+window.addEventListener('scroll',()=>{
+  const s=document.documentElement;
+  const pct=(s.scrollTop/(s.scrollHeight-s.clientHeight))*100;
+  document.getElementById('prog').style.width=pct+'%';
+});
+
+// ═══ CARDS ═══════════════════════════════════════════
+function toggleCard(el){
+  el.classList.toggle('open');
+}
+
+// ═══ FOCUS MODE ══════════════════════════════════════
+let focusMode=false;
+function toggleFocus(){
+  focusMode=!focusMode;
+  document.body.classList.toggle('focus',focusMode);
+  document.getElementById('focus-btn').classList.toggle('on',focusMode);
+  if(focusMode){
+    const cur=document.getElementById(activeSection);
+    if(cur) cur.classList.add('in-view');
+  } else {
+    document.querySelectorAll('.sec').forEach(s=>s.classList.remove('in-view'));
+  }
+}
+
+// ═══ LANGUAGE ════════════════════════════════════════
+function setLang(l){
+  document.body.classList.toggle('en',l==='en');
+  document.body.setAttribute('dir',l==='en'?'ltr':'rtl');
+  document.body.setAttribute('lang',l);
+  document.getElementById('btn-ar').classList.toggle('on',l==='ar');
+  document.getElementById('btn-en').classList.toggle('on',l==='en');
+  render();
+  setTimeout(()=>{
+    document.querySelectorAll('.sec').forEach(el=>io.observe(el));
+  },100);
+}
+
+// ═══ ADMIN ═══════════════════════════════════════════
+const ADMIN_PIN='2030';
+
+// Secret trigger: click brand logo 5× within 3s, OR Ctrl+Shift+A
+let _clicks=0, _ct=null;
+document.querySelector('.brand').addEventListener('click',e=>{
+  e.preventDefault();
+  _clicks++;
+  clearTimeout(_ct);
+  if(_clicks>=5){ _clicks=0; openAdmin(); return; }
+  _ct=setTimeout(()=>{ _clicks=0; },3000);
+});
+document.addEventListener('keydown',e=>{
+  if(e.ctrlKey && e.shiftKey && e.key==='A'){ e.preventDefault(); openAdmin(); }
+});
+
+function openAdmin(){document.getElementById('admin-modal').classList.add('show');document.getElementById('pin').focus()}
+function closeAdmin(){document.getElementById('admin-modal').classList.remove('show');document.getElementById('pin').value='';document.getElementById('pin-err').textContent=''}
+function checkPin(){
+  const v=document.getElementById('pin').value;
+  if(v===ADMIN_PIN){
+    closeAdmin();
+    document.body.classList.add('admin-on');
+    document.getElementById('admin-bar').classList.add('show');
+    document.querySelectorAll('[data-edit]').forEach(el=>{el.contentEditable='true'});
+  } else {
+    document.getElementById('pin-err').textContent=isAr()?'❌ رمز خاطئ':'❌ Wrong PIN';
+    document.getElementById('pin').value='';
+  }
+}
+function exitAdmin(){
+  document.body.classList.remove('admin-on');
+  document.getElementById('admin-bar').classList.remove('show');
+  document.querySelectorAll('[data-edit]').forEach(el=>{el.contentEditable='false'});
+}
+function saveHTML(){
+  const blob=new Blob([document.documentElement.outerHTML],{type:'text/html'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='index.html';
+  a.click();
+}
+
+// ═══ PARTICLES ═══════════════════════════════════════
+const colors=['#52b788','#2d6a4f','#74c69d','#d8f3dc','#2b7a9e'];
+const pc=document.getElementById('hero-particles');
+for(let i=0;i<16;i++){
+  const p=document.createElement('div');
+  p.className='pt';
+  const sz=Math.random()*6+2;
+  p.style.cssText=`width:${sz}px;height:${sz}px;background:${colors[i%5]};opacity:${Math.random()*.4+.15};left:${Math.random()*100}%;animation-duration:${Math.random()*14+8}s;animation-delay:${Math.random()*8}s`;
+  pc.appendChild(p);
+}
+
+// ═══ INIT ════════════════════════════════════════════
+render();
+setTimeout(()=>{
+  document.querySelectorAll('.sec').forEach(el=>io.observe(el));
+},100);
+</script>
+</body>
+</html>
